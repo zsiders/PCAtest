@@ -492,6 +492,8 @@ results[["Empirical Psi"]] <- Psiobs
 results[["Empirical Phi"]] <- Phiobs
 results[["Null Psi"]] <- Psi
 results[["Null Phi"]] <- Phi
+results[["Eigen Probabilities"]] <- eigenprob
+results[["Significant PCs"]] <- sigaxes
 
 if (Psiprob < alpha & Phiprob < alpha) { # test PC axes if both Psi and Phi are significant
 
