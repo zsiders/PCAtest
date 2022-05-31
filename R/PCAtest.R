@@ -93,8 +93,7 @@
 #'data("ants")
 #'result<-PCAtest(ants, 100, 100, 0.05, varcorr=FALSE, counter=FALSE, plot=TRUE)
 
-PCAtest <- function(x, nperm=1000, nboot=1000, alpha=0.05, indload=TRUE, varcorr
-                    =FALSE, counter=TRUE, plot=TRUE) {
+PCAtest <- function(x, nperm=1000, nboot=1000, alpha=0.05, indload=TRUE, varcorr=FALSE, counter=TRUE, plot=TRUE, parallel=FALSE, cores.free=4) {
 
 # check dependencies
 
@@ -239,7 +238,42 @@ indexloadperm<-vector("list", nperm)
 corperm<-vector("list", nperm)
 
 cat("\nSampling random permutations... Please wait\n")
+if(parallel){
+	require(pbapply)
 
+	A = proc.time()
+		cores = parallel::detectCores() - cores.free 
+		cl <- parallel::makeCluster(cores)
+		parallel::clusterExport(cl=cl, 
+            varlist=c("erddap.url",
+                      "ccmp.hist.info", 
+                      "lon.hist", 
+                      "lat.hist",
+                      "ccmp.nrt.info", 
+                      "lon.nrt", 
+                      "lat.nrt", 
+                      "def.proj",
+                      "ccmp.hist.last.date",
+                      "helper.ccmp.extract",
+                      "rasterToContour.sf",
+                      "bbox.adj",
+                      "stack.time",
+                      "tz"))
+		invisible(parallel::clusterEvalQ(cl=cl,{ 
+		                                 library(raster)
+																			library(sp)
+																			library(sf)
+																			library(nngeo)
+																			library(rerddap)
+																			library(lubridate)
+																			library(grec)}))
+		wind.metrics.list <- pblapply(cl = cl, 
+		                                   X = poly.list, 
+		                                   FUN = try.wrapper)
+		parallel::stopCluster(cl)
+	B = proc.time()
+	B-A
+}
 for (i in 1:nperm) {
 
 	if (counter==T) {
@@ -493,7 +527,7 @@ results[["Empirical Phi"]] <- Phiobs
 results[["Null Psi"]] <- Psi
 results[["Null Phi"]] <- Phi
 results[["Eigen Probabilities"]] <- eigenprob
-results[["Significant PCs"]] <- sigaxes
+results[["Significant PCs"]] <- eigenprob < alpha
 
 if (Psiprob < alpha & Phiprob < alpha) { # test PC axes if both Psi and Phi are significant
 
