@@ -7,9 +7,6 @@
 #' @param nperm Number of random permutations to build null distributions of the statistics.
 #' @param nboot Number of bootstrap replicates to build 95%-confidence intervals of the observed statistics.
 #' @param alpha Nominal alpha level for statistical tests.
-#' @param indload A logical indicating whether to calculate the index loadings of the variables with the significant PCs.
-#' @param varcorr A logical indicating whether to calculate the correlations of the variables with the significant PCs.
-#' @param counter A logical specifying whether to show the progress of the random sampling (bootstrap and permutations) on the screen.
 #' @param plot A logical specifying whether to plot the null distributions, observed statistics, and 95%-confidence intervals of statistics based on random permutation and bootstrap resampling.
 #' @param corr correction for PCoA, "none", "lingoes", "cailliez"
 #' @param print A logical (TRUE/FALSE) indicating whether to print benchmarks to console
@@ -63,24 +60,24 @@
 #'mu <- rep(0,5)
 #'Sigma <- matrix(c(rep(c(1,0,0,0,0,0),4),1),5)
 #'ex0 <- mvrnorm(100, mu = mu, Sigma = Sigma )
-#'result<-PCAtest(ex0, 100, 100, 0.05, varcorr=FALSE, counter=FALSE, plot=TRUE)
+#'result<-PCoAtest(ex0, dfun = dist, 100, 100, 0.05, plot=TRUE)
 #'
 #'#PCA analysis of five correlated (r=0.25) variables
 #'Sigma <- matrix(c(rep(c(1,0.25,0.25,0.25,0.25,0.25),4),1),5)
 #'ex025 <- mvrnorm(100, mu = mu, Sigma = Sigma )
-#'result<-PCAtest(ex025, 100, 100, 0.05, varcorr=FALSE, counter=FALSE, plot=TRUE)
+#'result<-PCoAtest(ex025, dfun = dist, 100, 100, 0.05, plot=TRUE)
 #'
 #'#PCA analysis of five correlated (r=0.5) variables
 #'Sigma <- matrix(c(rep(c(1,0.5,0.5,0.5,0.5,0.5),4),1),5)
 #'ex05 <- mvrnorm(100, mu = mu, Sigma = Sigma )
-#'result<-PCAtest(ex05, 100, 100, 0.05, varcorr=FALSE, counter=FALSE, plot=TRUE)
+#'result<-PCoAtest(ex05, dfun = dist, 100, 100, 0.05, plot=TRUE)
 #'
-#'#PCA analysis of seven morphological variables from 29 ant species (from
+#'#PCoA analysis of seven morphological variables from 29 ant species (from
 #'#Wong and Carmona 2021, https://doi.org/10.1111/2041-210X.13568)
 #'data("ants")
-#'result<-PCAtest(ants, 100, 100, 0.05, varcorr=FALSE, counter=FALSE, plot=TRUE)
+#'result<-PCoAtest(ants, dfun = dist, 100, 100, 0.05, plot=TRUE)
 
-PCoAtest <- function(x, dfun = dist, nperm=1000, nboot=1000, alpha=0.05, counter=TRUE, plot=TRUE, cores.free=4, corr = 'lingoes', print = TRUE) {
+PCoAtest <- function(x, dfun = dist, nperm=1000, nboot=1000, alpha=0.05, plot=TRUE, cores.free=4, corr = 'lingoes', print = TRUE) {
 
 	# check dependencies
 	requireNamespace("ape", quietly = TRUE)
