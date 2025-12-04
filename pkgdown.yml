@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   my-vignette: my-vignette.html
-last_built: 2025-12-04T19:50Z
+last_built: 2025-12-04T19:59Z
 urls:
   reference: https://arleyc.github.io/PCAtest/reference
   article: https://arleyc.github.io/PCAtest/articles
