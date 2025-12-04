@@ -12,9 +12,7 @@
 #' @param print A logical (TRUE/FALSE) indicating whether to print benchmarks to console
 #'
 #' @details
-#' PCAtest uses the function stats::prcomp to run a PCA using
-#'  the arguments scale = TRUE and center = TRUE.
-#' PCAtest plots four types of graphs in a single page: (1) a histogram showing the null distribution and the observed value of the Psi statistic, (2) a histogram showing the null distribution and the observed value of the Phi statistic, (3) a bar plot of the percentage of explained variance of each PC1, PC2, ..., etc., showing the sampling variance based on bootstrap replicates and random permutations with 95%-confidence intervals, and (4) a bar plot of the index of the loadings of each observed variable for PC1, showing the sampling variance of bootstrap replicates and random permutations with 95%- confidence intervals. If more than one PC is significant, additional plots for the index of the loadings are shown in as many new pages as necessary given the number of significant PCs. If the PCA is not significant, based on the Psi and Phi testing results, only histograms (1) and (2) are shown.
+#' PCoAtest uses the function ape::pcoa to run a PCoA. PCoAtest plots three types of graphs in a single page: (1) a histogram showing the null distribution and the observed value of the Psi statistic, (2) a histogram showing the null distribution and the observed value of the Phi statistic, and (3) a bar plot of the percentage of explained variance of each PC1, PC2, ..., etc., showing the sampling variance based on bootstrap replicates and random permutations with 95%-confidence intervals. If the PCA is not significant, based on the Psi and Phi testing results, only histograms (1) and (2) are shown.
 #'
 #' @return
 #' An object of class “list” with the following elements:
@@ -46,7 +44,6 @@
 #' @references
 #' \itemize{
 #'   \item Gleason, T. C. and Staelin R. (1975) A proposal for handling missing data. Psychometrika, 40, 229–252.
-#'   \item Jackson, J. E. (1991) A User’s Guide to Principal Components. John Wiley & Sons, New York, USA.
 #'   \item Ringnér, M. (2008) What is principal component analysis? Nature Biotechnology, 26, 303–304.
 #'   \item ter Braak, C. F. J. (1990) Update notes: CANOCO (version 3.1). Agricultural Mattematic Group, Report LWA-88-02, Wagningen, Netherlands.
 #'   \item Vieira, V. M. N. C. S. (2012) Permutation tests to estimate significances on Principal Components Analysis. Computational Ecology and Software, 2, 103–123.
